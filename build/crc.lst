@@ -1,0 +1,329 @@
+ARM GAS  /tmp/cc4CTMt9.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"crc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_CRC_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	MX_CRC_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-sp-d16
+  25              	MX_CRC_Init:
+  26              	.LFB138:
+  27              		.file 1 "Src/crc.c"
+   1:Src/crc.c     **** /**
+   2:Src/crc.c     ****   ******************************************************************************
+   3:Src/crc.c     ****   * File Name          : CRC.c
+   4:Src/crc.c     ****   * Description        : This file provides code for the configuration
+   5:Src/crc.c     ****   *                      of the CRC instances.
+   6:Src/crc.c     ****   ******************************************************************************
+   7:Src/crc.c     ****   * This notice applies to any and all portions of this file
+   8:Src/crc.c     ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/crc.c     ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/crc.c     ****   * inserted by the user or by software development tools
+  11:Src/crc.c     ****   * are owned by their respective copyright owners.
+  12:Src/crc.c     ****   *
+  13:Src/crc.c     ****   * Copyright (c) 2018 STMicroelectronics International N.V. 
+  14:Src/crc.c     ****   * All rights reserved.
+  15:Src/crc.c     ****   *
+  16:Src/crc.c     ****   * Redistribution and use in source and binary forms, with or without 
+  17:Src/crc.c     ****   * modification, are permitted, provided that the following conditions are met:
+  18:Src/crc.c     ****   *
+  19:Src/crc.c     ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:Src/crc.c     ****   *    this list of conditions and the following disclaimer.
+  21:Src/crc.c     ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:Src/crc.c     ****   *    this list of conditions and the following disclaimer in the documentation
+  23:Src/crc.c     ****   *    and/or other materials provided with the distribution.
+  24:Src/crc.c     ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:Src/crc.c     ****   *    contributors to this software may be used to endorse or promote products 
+  26:Src/crc.c     ****   *    derived from this software without specific written permission.
+  27:Src/crc.c     ****   * 4. This software, including modifications and/or derivative works of this 
+  28:Src/crc.c     ****   *    software, must execute solely and exclusively on microcontroller or
+  29:Src/crc.c     ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:Src/crc.c     ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:Src/crc.c     ****   *    this license is void and will automatically terminate your rights under 
+ARM GAS  /tmp/cc4CTMt9.s 			page 2
+
+
+  32:Src/crc.c     ****   *    this license. 
+  33:Src/crc.c     ****   *
+  34:Src/crc.c     ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:Src/crc.c     ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:Src/crc.c     ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:Src/crc.c     ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:Src/crc.c     ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:Src/crc.c     ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:Src/crc.c     ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:Src/crc.c     ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:Src/crc.c     ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:Src/crc.c     ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:Src/crc.c     ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:Src/crc.c     ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:Src/crc.c     ****   *
+  47:Src/crc.c     ****   ******************************************************************************
+  48:Src/crc.c     ****   */
+  49:Src/crc.c     **** 
+  50:Src/crc.c     **** /* Includes ------------------------------------------------------------------*/
+  51:Src/crc.c     **** #include "crc.h"
+  52:Src/crc.c     **** 
+  53:Src/crc.c     **** /* USER CODE BEGIN 0 */
+  54:Src/crc.c     **** 
+  55:Src/crc.c     **** /* USER CODE END 0 */
+  56:Src/crc.c     **** 
+  57:Src/crc.c     **** CRC_HandleTypeDef hcrc;
+  58:Src/crc.c     **** 
+  59:Src/crc.c     **** /* CRC init function */
+  60:Src/crc.c     **** void MX_CRC_Init(void)
+  61:Src/crc.c     **** {
+  28              		.loc 1 61 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  62:Src/crc.c     **** 
+  63:Src/crc.c     ****   hcrc.Instance = CRC;
+  37              		.loc 1 63 0
+  38 0002 0948     		ldr	r0, .L5
+  39 0004 094B     		ldr	r3, .L5+4
+  40 0006 0360     		str	r3, [r0]
+  64:Src/crc.c     ****   hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_ENABLE;
+  41              		.loc 1 64 0
+  42 0008 0023     		movs	r3, #0
+  43 000a 0371     		strb	r3, [r0, #4]
+  65:Src/crc.c     ****   hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_ENABLE;
+  44              		.loc 1 65 0
+  45 000c 4371     		strb	r3, [r0, #5]
+  66:Src/crc.c     ****   hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  46              		.loc 1 66 0
+  47 000e 4361     		str	r3, [r0, #20]
+  67:Src/crc.c     ****   hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+  48              		.loc 1 67 0
+ARM GAS  /tmp/cc4CTMt9.s 			page 3
+
+
+  49 0010 8361     		str	r3, [r0, #24]
+  68:Src/crc.c     ****   hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
+  50              		.loc 1 68 0
+  51 0012 0123     		movs	r3, #1
+  52 0014 0362     		str	r3, [r0, #32]
+  69:Src/crc.c     ****   if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  53              		.loc 1 69 0
+  54 0016 FFF7FEFF 		bl	HAL_CRC_Init
+  55              	.LVL0:
+  56 001a 00B9     		cbnz	r0, .L4
+  57              	.L1:
+  70:Src/crc.c     ****   {
+  71:Src/crc.c     ****     _Error_Handler(__FILE__, __LINE__);
+  72:Src/crc.c     ****   }
+  73:Src/crc.c     **** 
+  74:Src/crc.c     **** }
+  58              		.loc 1 74 0
+  59 001c 08BD     		pop	{r3, pc}
+  60              	.L4:
+  71:Src/crc.c     ****   }
+  61              		.loc 1 71 0
+  62 001e 4721     		movs	r1, #71
+  63 0020 0348     		ldr	r0, .L5+8
+  64 0022 FFF7FEFF 		bl	_Error_Handler
+  65              	.LVL1:
+  66              		.loc 1 74 0
+  67 0026 F9E7     		b	.L1
+  68              	.L6:
+  69              		.align	2
+  70              	.L5:
+  71 0028 00000000 		.word	hcrc
+  72 002c 00300240 		.word	1073885184
+  73 0030 00000000 		.word	.LC0
+  74              		.cfi_endproc
+  75              	.LFE138:
+  77              		.section	.text.HAL_CRC_MspInit,"ax",%progbits
+  78              		.align	1
+  79              		.global	HAL_CRC_MspInit
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  83              		.fpu fpv5-sp-d16
+  85              	HAL_CRC_MspInit:
+  86              	.LFB139:
+  75:Src/crc.c     **** 
+  76:Src/crc.c     **** void HAL_CRC_MspInit(CRC_HandleTypeDef* crcHandle)
+  77:Src/crc.c     **** {
+  87              		.loc 1 77 0
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 8
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              		@ link register save eliminated.
+  92              	.LVL2:
+  78:Src/crc.c     **** 
+  79:Src/crc.c     ****   if(crcHandle->Instance==CRC)
+  93              		.loc 1 79 0
+  94 0000 0268     		ldr	r2, [r0]
+ARM GAS  /tmp/cc4CTMt9.s 			page 4
+
+
+  95 0002 094B     		ldr	r3, .L14
+  96 0004 9A42     		cmp	r2, r3
+  97 0006 00D0     		beq	.L13
+  98 0008 7047     		bx	lr
+  99              	.L13:
+  77:Src/crc.c     **** 
+ 100              		.loc 1 77 0
+ 101 000a 82B0     		sub	sp, sp, #8
+ 102              	.LCFI1:
+ 103              		.cfi_def_cfa_offset 8
+ 104              	.LBB2:
+  80:Src/crc.c     ****   {
+  81:Src/crc.c     ****   /* USER CODE BEGIN CRC_MspInit 0 */
+  82:Src/crc.c     **** 
+  83:Src/crc.c     ****   /* USER CODE END CRC_MspInit 0 */
+  84:Src/crc.c     ****     /* CRC clock enable */
+  85:Src/crc.c     ****     __HAL_RCC_CRC_CLK_ENABLE();
+ 105              		.loc 1 85 0
+ 106 000c 03F50063 		add	r3, r3, #2048
+ 107 0010 1A6B     		ldr	r2, [r3, #48]
+ 108 0012 42F48052 		orr	r2, r2, #4096
+ 109 0016 1A63     		str	r2, [r3, #48]
+ 110 0018 1B6B     		ldr	r3, [r3, #48]
+ 111 001a 03F48053 		and	r3, r3, #4096
+ 112 001e 0193     		str	r3, [sp, #4]
+ 113 0020 019B     		ldr	r3, [sp, #4]
+ 114              	.LBE2:
+  86:Src/crc.c     ****   /* USER CODE BEGIN CRC_MspInit 1 */
+  87:Src/crc.c     **** 
+  88:Src/crc.c     ****   /* USER CODE END CRC_MspInit 1 */
+  89:Src/crc.c     ****   }
+  90:Src/crc.c     **** }
+ 115              		.loc 1 90 0
+ 116 0022 02B0     		add	sp, sp, #8
+ 117              	.LCFI2:
+ 118              		.cfi_def_cfa_offset 0
+ 119              		@ sp needed
+ 120 0024 7047     		bx	lr
+ 121              	.L15:
+ 122 0026 00BF     		.align	2
+ 123              	.L14:
+ 124 0028 00300240 		.word	1073885184
+ 125              		.cfi_endproc
+ 126              	.LFE139:
+ 128              		.section	.text.HAL_CRC_MspDeInit,"ax",%progbits
+ 129              		.align	1
+ 130              		.global	HAL_CRC_MspDeInit
+ 131              		.syntax unified
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.fpu fpv5-sp-d16
+ 136              	HAL_CRC_MspDeInit:
+ 137              	.LFB140:
+  91:Src/crc.c     **** 
+  92:Src/crc.c     **** void HAL_CRC_MspDeInit(CRC_HandleTypeDef* crcHandle)
+  93:Src/crc.c     **** {
+ 138              		.loc 1 93 0
+ARM GAS  /tmp/cc4CTMt9.s 			page 5
+
+
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+ 143              	.LVL3:
+  94:Src/crc.c     **** 
+  95:Src/crc.c     ****   if(crcHandle->Instance==CRC)
+ 144              		.loc 1 95 0
+ 145 0000 0268     		ldr	r2, [r0]
+ 146 0002 054B     		ldr	r3, .L19
+ 147 0004 9A42     		cmp	r2, r3
+ 148 0006 00D0     		beq	.L18
+ 149              	.L16:
+  96:Src/crc.c     ****   {
+  97:Src/crc.c     ****   /* USER CODE BEGIN CRC_MspDeInit 0 */
+  98:Src/crc.c     **** 
+  99:Src/crc.c     ****   /* USER CODE END CRC_MspDeInit 0 */
+ 100:Src/crc.c     ****     /* Peripheral clock disable */
+ 101:Src/crc.c     ****     __HAL_RCC_CRC_CLK_DISABLE();
+ 102:Src/crc.c     ****   /* USER CODE BEGIN CRC_MspDeInit 1 */
+ 103:Src/crc.c     **** 
+ 104:Src/crc.c     ****   /* USER CODE END CRC_MspDeInit 1 */
+ 105:Src/crc.c     ****   }
+ 106:Src/crc.c     **** } 
+ 150              		.loc 1 106 0
+ 151 0008 7047     		bx	lr
+ 152              	.L18:
+ 101:Src/crc.c     ****   /* USER CODE BEGIN CRC_MspDeInit 1 */
+ 153              		.loc 1 101 0
+ 154 000a 044A     		ldr	r2, .L19+4
+ 155 000c 136B     		ldr	r3, [r2, #48]
+ 156 000e 23F48053 		bic	r3, r3, #4096
+ 157 0012 1363     		str	r3, [r2, #48]
+ 158              		.loc 1 106 0
+ 159 0014 F8E7     		b	.L16
+ 160              	.L20:
+ 161 0016 00BF     		.align	2
+ 162              	.L19:
+ 163 0018 00300240 		.word	1073885184
+ 164 001c 00380240 		.word	1073887232
+ 165              		.cfi_endproc
+ 166              	.LFE140:
+ 168              		.comm	hcrc,36,4
+ 169              		.section	.rodata.MX_CRC_Init.str1.4,"aMS",%progbits,1
+ 170              		.align	2
+ 171              	.LC0:
+ 172 0000 5372632F 		.ascii	"Src/crc.c\000"
+ 172      6372632E 
+ 172      6300
+ 173              		.text
+ 174              	.Letext0:
+ 175              		.file 2 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_defa
+ 176              		.file 3 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h
+ 177              		.file 4 "Drivers/CMSIS/Include/core_cm7.h"
+ 178              		.file 5 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h"
+ 179              		.file 6 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f746xx.h"
+ 180              		.file 7 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ARM GAS  /tmp/cc4CTMt9.s 			page 6
+
+
+ 181              		.file 8 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 182              		.file 9 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include
+ 183              		.file 10 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 184              		.file 11 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h"
+ 185              		.file 12 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_crc.h"
+ 186              		.file 13 "Inc/crc.h"
+ARM GAS  /tmp/cc4CTMt9.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 crc.c
+     /tmp/cc4CTMt9.s:18     .text.MX_CRC_Init:0000000000000000 $t
+     /tmp/cc4CTMt9.s:25     .text.MX_CRC_Init:0000000000000000 MX_CRC_Init
+     /tmp/cc4CTMt9.s:71     .text.MX_CRC_Init:0000000000000028 $d
+                            *COM*:0000000000000024 hcrc
+     /tmp/cc4CTMt9.s:78     .text.HAL_CRC_MspInit:0000000000000000 $t
+     /tmp/cc4CTMt9.s:85     .text.HAL_CRC_MspInit:0000000000000000 HAL_CRC_MspInit
+     /tmp/cc4CTMt9.s:124    .text.HAL_CRC_MspInit:0000000000000028 $d
+     /tmp/cc4CTMt9.s:129    .text.HAL_CRC_MspDeInit:0000000000000000 $t
+     /tmp/cc4CTMt9.s:136    .text.HAL_CRC_MspDeInit:0000000000000000 HAL_CRC_MspDeInit
+     /tmp/cc4CTMt9.s:163    .text.HAL_CRC_MspDeInit:0000000000000018 $d
+     /tmp/cc4CTMt9.s:170    .rodata.MX_CRC_Init.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_CRC_Init
+_Error_Handler

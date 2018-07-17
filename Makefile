@@ -14,7 +14,6 @@
 # target
 ######################################
 TARGET = stm32f746disco-enet
-UNITTEST_TARGET = stm32f746disco-enet-unittest
 
 ######################################
 # building variables
@@ -198,7 +197,8 @@ Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c
+Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c \
+Src/functionsundertest.c \
 
 # ASM sources
 ASM_SOURCES =  \
@@ -278,13 +278,6 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/LwIP/src/include/posix/sys \
 -IMiddlewares/Third_Party/LwIP/system/arch \
 -IDrivers/CMSIS/Include \
--I${HOME}/opt/Unity/src
-
-# C unittest sources
-C_UNITTEST_SOURCES =  \
-Src/testfunctionsundertest.c \
-Src/functionsundertest.c \
-${HOME}/opt/Unity/src
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

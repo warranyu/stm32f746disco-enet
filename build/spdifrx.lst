@@ -1,0 +1,404 @@
+ARM GAS  /tmp/ccL6RCy7.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"spdifrx.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_SPDIFRX_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	MX_SPDIFRX_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-sp-d16
+  25              	MX_SPDIFRX_Init:
+  26              	.LFB138:
+  27              		.file 1 "Src/spdifrx.c"
+   1:Src/spdifrx.c **** /**
+   2:Src/spdifrx.c ****   ******************************************************************************
+   3:Src/spdifrx.c ****   * File Name          : SPDIFRX.c
+   4:Src/spdifrx.c ****   * Description        : This file provides code for the configuration
+   5:Src/spdifrx.c ****   *                      of the SPDIFRX instances.
+   6:Src/spdifrx.c ****   ******************************************************************************
+   7:Src/spdifrx.c ****   * This notice applies to any and all portions of this file
+   8:Src/spdifrx.c ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/spdifrx.c ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/spdifrx.c ****   * inserted by the user or by software development tools
+  11:Src/spdifrx.c ****   * are owned by their respective copyright owners.
+  12:Src/spdifrx.c ****   *
+  13:Src/spdifrx.c ****   * Copyright (c) 2018 STMicroelectronics International N.V. 
+  14:Src/spdifrx.c ****   * All rights reserved.
+  15:Src/spdifrx.c ****   *
+  16:Src/spdifrx.c ****   * Redistribution and use in source and binary forms, with or without 
+  17:Src/spdifrx.c ****   * modification, are permitted, provided that the following conditions are met:
+  18:Src/spdifrx.c ****   *
+  19:Src/spdifrx.c ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:Src/spdifrx.c ****   *    this list of conditions and the following disclaimer.
+  21:Src/spdifrx.c ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:Src/spdifrx.c ****   *    this list of conditions and the following disclaimer in the documentation
+  23:Src/spdifrx.c ****   *    and/or other materials provided with the distribution.
+  24:Src/spdifrx.c ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:Src/spdifrx.c ****   *    contributors to this software may be used to endorse or promote products 
+  26:Src/spdifrx.c ****   *    derived from this software without specific written permission.
+  27:Src/spdifrx.c ****   * 4. This software, including modifications and/or derivative works of this 
+  28:Src/spdifrx.c ****   *    software, must execute solely and exclusively on microcontroller or
+  29:Src/spdifrx.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:Src/spdifrx.c ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:Src/spdifrx.c ****   *    this license is void and will automatically terminate your rights under 
+ARM GAS  /tmp/ccL6RCy7.s 			page 2
+
+
+  32:Src/spdifrx.c ****   *    this license. 
+  33:Src/spdifrx.c ****   *
+  34:Src/spdifrx.c ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:Src/spdifrx.c ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:Src/spdifrx.c ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:Src/spdifrx.c ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:Src/spdifrx.c ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:Src/spdifrx.c ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:Src/spdifrx.c ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:Src/spdifrx.c ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:Src/spdifrx.c ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:Src/spdifrx.c ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:Src/spdifrx.c ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:Src/spdifrx.c ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:Src/spdifrx.c ****   *
+  47:Src/spdifrx.c ****   ******************************************************************************
+  48:Src/spdifrx.c ****   */
+  49:Src/spdifrx.c **** 
+  50:Src/spdifrx.c **** /* Includes ------------------------------------------------------------------*/
+  51:Src/spdifrx.c **** #include "spdifrx.h"
+  52:Src/spdifrx.c **** 
+  53:Src/spdifrx.c **** #include "gpio.h"
+  54:Src/spdifrx.c **** 
+  55:Src/spdifrx.c **** /* USER CODE BEGIN 0 */
+  56:Src/spdifrx.c **** 
+  57:Src/spdifrx.c **** /* USER CODE END 0 */
+  58:Src/spdifrx.c **** 
+  59:Src/spdifrx.c **** SPDIFRX_HandleTypeDef hspdif;
+  60:Src/spdifrx.c **** 
+  61:Src/spdifrx.c **** /* SPDIFRX init function */
+  62:Src/spdifrx.c **** void MX_SPDIFRX_Init(void)
+  63:Src/spdifrx.c **** {
+  28              		.loc 1 63 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  64:Src/spdifrx.c **** 
+  65:Src/spdifrx.c ****   hspdif.Instance = SPDIFRX;
+  37              		.loc 1 65 0
+  38 0002 0C48     		ldr	r0, .L5
+  39 0004 4FF04023 		mov	r3, #1073758208
+  40 0008 0360     		str	r3, [r0]
+  66:Src/spdifrx.c ****   hspdif.Init.InputSelection = SPDIFRX_INPUT_IN0;
+  41              		.loc 1 66 0
+  42 000a 0023     		movs	r3, #0
+  43 000c 4360     		str	r3, [r0, #4]
+  67:Src/spdifrx.c ****   hspdif.Init.Retries = SPDIFRX_MAXRETRIES_NONE;
+  44              		.loc 1 67 0
+  45 000e 8360     		str	r3, [r0, #8]
+  68:Src/spdifrx.c ****   hspdif.Init.WaitForActivity = SPDIFRX_WAITFORACTIVITY_OFF;
+  46              		.loc 1 68 0
+  47 0010 C360     		str	r3, [r0, #12]
+ARM GAS  /tmp/ccL6RCy7.s 			page 3
+
+
+  69:Src/spdifrx.c ****   hspdif.Init.ChannelSelection = SPDIFRX_CHANNEL_A;
+  48              		.loc 1 69 0
+  49 0012 0361     		str	r3, [r0, #16]
+  70:Src/spdifrx.c ****   hspdif.Init.DataFormat = SPDIFRX_DATAFORMAT_LSB;
+  50              		.loc 1 70 0
+  51 0014 4361     		str	r3, [r0, #20]
+  71:Src/spdifrx.c ****   hspdif.Init.StereoMode = SPDIFRX_STEREOMODE_DISABLE;
+  52              		.loc 1 71 0
+  53 0016 8361     		str	r3, [r0, #24]
+  72:Src/spdifrx.c ****   hspdif.Init.PreambleTypeMask = SPDIFRX_PREAMBLETYPEMASK_OFF;
+  54              		.loc 1 72 0
+  55 0018 C361     		str	r3, [r0, #28]
+  73:Src/spdifrx.c ****   hspdif.Init.ChannelStatusMask = SPDIFRX_CHANNELSTATUS_OFF;
+  56              		.loc 1 73 0
+  57 001a 0362     		str	r3, [r0, #32]
+  74:Src/spdifrx.c ****   hspdif.Init.ValidityBitMask = SPDIFRX_VALIDITYMASK_OFF;
+  58              		.loc 1 74 0
+  59 001c 4362     		str	r3, [r0, #36]
+  75:Src/spdifrx.c ****   hspdif.Init.ParityErrorMask = SPDIFRX_PARITYERRORMASK_OFF;
+  60              		.loc 1 75 0
+  61 001e 8362     		str	r3, [r0, #40]
+  76:Src/spdifrx.c ****   if (HAL_SPDIFRX_Init(&hspdif) != HAL_OK)
+  62              		.loc 1 76 0
+  63 0020 FFF7FEFF 		bl	HAL_SPDIFRX_Init
+  64              	.LVL0:
+  65 0024 00B9     		cbnz	r0, .L4
+  66              	.L1:
+  77:Src/spdifrx.c ****   {
+  78:Src/spdifrx.c ****     _Error_Handler(__FILE__, __LINE__);
+  79:Src/spdifrx.c ****   }
+  80:Src/spdifrx.c **** 
+  81:Src/spdifrx.c **** }
+  67              		.loc 1 81 0
+  68 0026 08BD     		pop	{r3, pc}
+  69              	.L4:
+  78:Src/spdifrx.c ****   }
+  70              		.loc 1 78 0
+  71 0028 4E21     		movs	r1, #78
+  72 002a 0348     		ldr	r0, .L5+4
+  73 002c FFF7FEFF 		bl	_Error_Handler
+  74              	.LVL1:
+  75              		.loc 1 81 0
+  76 0030 F9E7     		b	.L1
+  77              	.L6:
+  78 0032 00BF     		.align	2
+  79              	.L5:
+  80 0034 00000000 		.word	hspdif
+  81 0038 00000000 		.word	.LC0
+  82              		.cfi_endproc
+  83              	.LFE138:
+  85              		.section	.text.HAL_SPDIFRX_MspInit,"ax",%progbits
+  86              		.align	1
+  87              		.global	HAL_SPDIFRX_MspInit
+  88              		.syntax unified
+  89              		.thumb
+  90              		.thumb_func
+  91              		.fpu fpv5-sp-d16
+ARM GAS  /tmp/ccL6RCy7.s 			page 4
+
+
+  93              	HAL_SPDIFRX_MspInit:
+  94              	.LFB139:
+  82:Src/spdifrx.c **** 
+  83:Src/spdifrx.c **** void HAL_SPDIFRX_MspInit(SPDIFRX_HandleTypeDef* spdifrxHandle)
+  84:Src/spdifrx.c **** {
+  95              		.loc 1 84 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 24
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              	.LVL2:
+  85:Src/spdifrx.c **** 
+  86:Src/spdifrx.c ****   GPIO_InitTypeDef GPIO_InitStruct;
+  87:Src/spdifrx.c ****   if(spdifrxHandle->Instance==SPDIFRX)
+ 100              		.loc 1 87 0
+ 101 0000 0368     		ldr	r3, [r0]
+ 102 0002 B3F1402F 		cmp	r3, #1073758208
+ 103 0006 00D0     		beq	.L13
+ 104 0008 7047     		bx	lr
+ 105              	.L13:
+  84:Src/spdifrx.c **** 
+ 106              		.loc 1 84 0
+ 107 000a 00B5     		push	{lr}
+ 108              	.LCFI1:
+ 109              		.cfi_def_cfa_offset 4
+ 110              		.cfi_offset 14, -4
+ 111 000c 87B0     		sub	sp, sp, #28
+ 112              	.LCFI2:
+ 113              		.cfi_def_cfa_offset 32
+ 114              	.LBB2:
+  88:Src/spdifrx.c ****   {
+  89:Src/spdifrx.c ****   /* USER CODE BEGIN SPDIFRX_MspInit 0 */
+  90:Src/spdifrx.c **** 
+  91:Src/spdifrx.c ****   /* USER CODE END SPDIFRX_MspInit 0 */
+  92:Src/spdifrx.c ****     /* SPDIFRX clock enable */
+  93:Src/spdifrx.c ****     __HAL_RCC_SPDIFRX_CLK_ENABLE();
+ 115              		.loc 1 93 0
+ 116 000e 03F5FC33 		add	r3, r3, #129024
+ 117 0012 1A6C     		ldr	r2, [r3, #64]
+ 118 0014 42F48032 		orr	r2, r2, #65536
+ 119 0018 1A64     		str	r2, [r3, #64]
+ 120 001a 1B6C     		ldr	r3, [r3, #64]
+ 121 001c 03F48033 		and	r3, r3, #65536
+ 122 0020 0093     		str	r3, [sp]
+ 123 0022 009B     		ldr	r3, [sp]
+ 124              	.LBE2:
+  94:Src/spdifrx.c ****   
+  95:Src/spdifrx.c ****     /**SPDIFRX GPIO Configuration    
+  96:Src/spdifrx.c ****     PD7     ------> SPDIFRX_IN0 
+  97:Src/spdifrx.c ****     */
+  98:Src/spdifrx.c ****     GPIO_InitStruct.Pin = SPDIF_RX0_Pin;
+ 125              		.loc 1 98 0
+ 126 0024 8023     		movs	r3, #128
+ 127 0026 0193     		str	r3, [sp, #4]
+  99:Src/spdifrx.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 128              		.loc 1 99 0
+ 129 0028 0223     		movs	r3, #2
+ 130 002a 0293     		str	r3, [sp, #8]
+ARM GAS  /tmp/ccL6RCy7.s 			page 5
+
+
+ 100:Src/spdifrx.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 131              		.loc 1 100 0
+ 132 002c 0023     		movs	r3, #0
+ 133 002e 0393     		str	r3, [sp, #12]
+ 101:Src/spdifrx.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 134              		.loc 1 101 0
+ 135 0030 0493     		str	r3, [sp, #16]
+ 102:Src/spdifrx.c ****     GPIO_InitStruct.Alternate = GPIO_AF8_SPDIFRX;
+ 136              		.loc 1 102 0
+ 137 0032 0823     		movs	r3, #8
+ 138 0034 0593     		str	r3, [sp, #20]
+ 103:Src/spdifrx.c ****     HAL_GPIO_Init(SPDIF_RX0_GPIO_Port, &GPIO_InitStruct);
+ 139              		.loc 1 103 0
+ 140 0036 01A9     		add	r1, sp, #4
+ 141 0038 0248     		ldr	r0, .L14
+ 142              	.LVL3:
+ 143 003a FFF7FEFF 		bl	HAL_GPIO_Init
+ 144              	.LVL4:
+ 104:Src/spdifrx.c **** 
+ 105:Src/spdifrx.c ****   /* USER CODE BEGIN SPDIFRX_MspInit 1 */
+ 106:Src/spdifrx.c **** 
+ 107:Src/spdifrx.c ****   /* USER CODE END SPDIFRX_MspInit 1 */
+ 108:Src/spdifrx.c ****   }
+ 109:Src/spdifrx.c **** }
+ 145              		.loc 1 109 0
+ 146 003e 07B0     		add	sp, sp, #28
+ 147              	.LCFI3:
+ 148              		.cfi_def_cfa_offset 4
+ 149              		@ sp needed
+ 150 0040 5DF804FB 		ldr	pc, [sp], #4
+ 151              	.L15:
+ 152              		.align	2
+ 153              	.L14:
+ 154 0044 000C0240 		.word	1073875968
+ 155              		.cfi_endproc
+ 156              	.LFE139:
+ 158              		.section	.text.HAL_SPDIFRX_MspDeInit,"ax",%progbits
+ 159              		.align	1
+ 160              		.global	HAL_SPDIFRX_MspDeInit
+ 161              		.syntax unified
+ 162              		.thumb
+ 163              		.thumb_func
+ 164              		.fpu fpv5-sp-d16
+ 166              	HAL_SPDIFRX_MspDeInit:
+ 167              	.LFB140:
+ 110:Src/spdifrx.c **** 
+ 111:Src/spdifrx.c **** void HAL_SPDIFRX_MspDeInit(SPDIFRX_HandleTypeDef* spdifrxHandle)
+ 112:Src/spdifrx.c **** {
+ 168              		.loc 1 112 0
+ 169              		.cfi_startproc
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172              	.LVL5:
+ 173 0000 08B5     		push	{r3, lr}
+ 174              	.LCFI4:
+ 175              		.cfi_def_cfa_offset 8
+ 176              		.cfi_offset 3, -8
+ARM GAS  /tmp/ccL6RCy7.s 			page 6
+
+
+ 177              		.cfi_offset 14, -4
+ 113:Src/spdifrx.c **** 
+ 114:Src/spdifrx.c ****   if(spdifrxHandle->Instance==SPDIFRX)
+ 178              		.loc 1 114 0
+ 179 0002 0368     		ldr	r3, [r0]
+ 180 0004 B3F1402F 		cmp	r3, #1073758208
+ 181 0008 00D0     		beq	.L19
+ 182              	.LVL6:
+ 183              	.L16:
+ 115:Src/spdifrx.c ****   {
+ 116:Src/spdifrx.c ****   /* USER CODE BEGIN SPDIFRX_MspDeInit 0 */
+ 117:Src/spdifrx.c **** 
+ 118:Src/spdifrx.c ****   /* USER CODE END SPDIFRX_MspDeInit 0 */
+ 119:Src/spdifrx.c ****     /* Peripheral clock disable */
+ 120:Src/spdifrx.c ****     __HAL_RCC_SPDIFRX_CLK_DISABLE();
+ 121:Src/spdifrx.c ****   
+ 122:Src/spdifrx.c ****     /**SPDIFRX GPIO Configuration    
+ 123:Src/spdifrx.c ****     PD7     ------> SPDIFRX_IN0 
+ 124:Src/spdifrx.c ****     */
+ 125:Src/spdifrx.c ****     HAL_GPIO_DeInit(SPDIF_RX0_GPIO_Port, SPDIF_RX0_Pin);
+ 126:Src/spdifrx.c **** 
+ 127:Src/spdifrx.c ****   /* USER CODE BEGIN SPDIFRX_MspDeInit 1 */
+ 128:Src/spdifrx.c **** 
+ 129:Src/spdifrx.c ****   /* USER CODE END SPDIFRX_MspDeInit 1 */
+ 130:Src/spdifrx.c ****   }
+ 131:Src/spdifrx.c **** } 
+ 184              		.loc 1 131 0
+ 185 000a 08BD     		pop	{r3, pc}
+ 186              	.LVL7:
+ 187              	.L19:
+ 120:Src/spdifrx.c ****   
+ 188              		.loc 1 120 0
+ 189 000c 044A     		ldr	r2, .L20
+ 190 000e 136C     		ldr	r3, [r2, #64]
+ 191 0010 23F48033 		bic	r3, r3, #65536
+ 192 0014 1364     		str	r3, [r2, #64]
+ 125:Src/spdifrx.c **** 
+ 193              		.loc 1 125 0
+ 194 0016 8021     		movs	r1, #128
+ 195 0018 0248     		ldr	r0, .L20+4
+ 196              	.LVL8:
+ 197 001a FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 198              	.LVL9:
+ 199              		.loc 1 131 0
+ 200 001e F4E7     		b	.L16
+ 201              	.L21:
+ 202              		.align	2
+ 203              	.L20:
+ 204 0020 00380240 		.word	1073887232
+ 205 0024 000C0240 		.word	1073875968
+ 206              		.cfi_endproc
+ 207              	.LFE140:
+ 209              		.comm	hspdif,76,4
+ 210              		.section	.rodata.MX_SPDIFRX_Init.str1.4,"aMS",%progbits,1
+ 211              		.align	2
+ 212              	.LC0:
+ 213 0000 5372632F 		.ascii	"Src/spdifrx.c\000"
+ARM GAS  /tmp/ccL6RCy7.s 			page 7
+
+
+ 213      73706469 
+ 213      6672782E 
+ 213      6300
+ 214              		.text
+ 215              	.Letext0:
+ 216              		.file 2 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_defa
+ 217              		.file 3 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h
+ 218              		.file 4 "Drivers/CMSIS/Include/core_cm7.h"
+ 219              		.file 5 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h"
+ 220              		.file 6 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f746xx.h"
+ 221              		.file 7 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 222              		.file 8 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 223              		.file 9 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include
+ 224              		.file 10 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 225              		.file 11 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h"
+ 226              		.file 12 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h"
+ 227              		.file 13 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma.h"
+ 228              		.file 14 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_spdifrx.h"
+ 229              		.file 15 "Inc/spdifrx.h"
+ARM GAS  /tmp/ccL6RCy7.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 spdifrx.c
+     /tmp/ccL6RCy7.s:18     .text.MX_SPDIFRX_Init:0000000000000000 $t
+     /tmp/ccL6RCy7.s:25     .text.MX_SPDIFRX_Init:0000000000000000 MX_SPDIFRX_Init
+     /tmp/ccL6RCy7.s:80     .text.MX_SPDIFRX_Init:0000000000000034 $d
+                            *COM*:000000000000004c hspdif
+     /tmp/ccL6RCy7.s:86     .text.HAL_SPDIFRX_MspInit:0000000000000000 $t
+     /tmp/ccL6RCy7.s:93     .text.HAL_SPDIFRX_MspInit:0000000000000000 HAL_SPDIFRX_MspInit
+     /tmp/ccL6RCy7.s:154    .text.HAL_SPDIFRX_MspInit:0000000000000044 $d
+     /tmp/ccL6RCy7.s:159    .text.HAL_SPDIFRX_MspDeInit:0000000000000000 $t
+     /tmp/ccL6RCy7.s:166    .text.HAL_SPDIFRX_MspDeInit:0000000000000000 HAL_SPDIFRX_MspDeInit
+     /tmp/ccL6RCy7.s:204    .text.HAL_SPDIFRX_MspDeInit:0000000000000020 $d
+     /tmp/ccL6RCy7.s:211    .rodata.MX_SPDIFRX_Init.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_SPDIFRX_Init
+_Error_Handler
+HAL_GPIO_Init
+HAL_GPIO_DeInit

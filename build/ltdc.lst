@@ -1,0 +1,753 @@
+ARM GAS  /tmp/ccsrHZ3u.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ltdc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_LTDC_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	MX_LTDC_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-sp-d16
+  25              	MX_LTDC_Init:
+  26              	.LFB138:
+  27              		.file 1 "Src/ltdc.c"
+   1:Src/ltdc.c    **** /**
+   2:Src/ltdc.c    ****   ******************************************************************************
+   3:Src/ltdc.c    ****   * File Name          : LTDC.c
+   4:Src/ltdc.c    ****   * Description        : This file provides code for the configuration
+   5:Src/ltdc.c    ****   *                      of the LTDC instances.
+   6:Src/ltdc.c    ****   ******************************************************************************
+   7:Src/ltdc.c    ****   * This notice applies to any and all portions of this file
+   8:Src/ltdc.c    ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/ltdc.c    ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/ltdc.c    ****   * inserted by the user or by software development tools
+  11:Src/ltdc.c    ****   * are owned by their respective copyright owners.
+  12:Src/ltdc.c    ****   *
+  13:Src/ltdc.c    ****   * Copyright (c) 2018 STMicroelectronics International N.V. 
+  14:Src/ltdc.c    ****   * All rights reserved.
+  15:Src/ltdc.c    ****   *
+  16:Src/ltdc.c    ****   * Redistribution and use in source and binary forms, with or without 
+  17:Src/ltdc.c    ****   * modification, are permitted, provided that the following conditions are met:
+  18:Src/ltdc.c    ****   *
+  19:Src/ltdc.c    ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:Src/ltdc.c    ****   *    this list of conditions and the following disclaimer.
+  21:Src/ltdc.c    ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:Src/ltdc.c    ****   *    this list of conditions and the following disclaimer in the documentation
+  23:Src/ltdc.c    ****   *    and/or other materials provided with the distribution.
+  24:Src/ltdc.c    ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:Src/ltdc.c    ****   *    contributors to this software may be used to endorse or promote products 
+  26:Src/ltdc.c    ****   *    derived from this software without specific written permission.
+  27:Src/ltdc.c    ****   * 4. This software, including modifications and/or derivative works of this 
+  28:Src/ltdc.c    ****   *    software, must execute solely and exclusively on microcontroller or
+  29:Src/ltdc.c    ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:Src/ltdc.c    ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:Src/ltdc.c    ****   *    this license is void and will automatically terminate your rights under 
+ARM GAS  /tmp/ccsrHZ3u.s 			page 2
+
+
+  32:Src/ltdc.c    ****   *    this license. 
+  33:Src/ltdc.c    ****   *
+  34:Src/ltdc.c    ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:Src/ltdc.c    ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:Src/ltdc.c    ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:Src/ltdc.c    ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:Src/ltdc.c    ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:Src/ltdc.c    ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:Src/ltdc.c    ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:Src/ltdc.c    ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:Src/ltdc.c    ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:Src/ltdc.c    ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:Src/ltdc.c    ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:Src/ltdc.c    ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:Src/ltdc.c    ****   *
+  47:Src/ltdc.c    ****   ******************************************************************************
+  48:Src/ltdc.c    ****   */
+  49:Src/ltdc.c    **** 
+  50:Src/ltdc.c    **** /* Includes ------------------------------------------------------------------*/
+  51:Src/ltdc.c    **** #include "ltdc.h"
+  52:Src/ltdc.c    **** 
+  53:Src/ltdc.c    **** #include "gpio.h"
+  54:Src/ltdc.c    **** 
+  55:Src/ltdc.c    **** /* USER CODE BEGIN 0 */
+  56:Src/ltdc.c    **** 
+  57:Src/ltdc.c    **** /* USER CODE END 0 */
+  58:Src/ltdc.c    **** 
+  59:Src/ltdc.c    **** LTDC_HandleTypeDef hltdc;
+  60:Src/ltdc.c    **** 
+  61:Src/ltdc.c    **** /* LTDC init function */
+  62:Src/ltdc.c    **** void MX_LTDC_Init(void)
+  63:Src/ltdc.c    **** {
+  28              		.loc 1 63 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 56
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 8FB0     		sub	sp, sp, #60
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 64
+  64:Src/ltdc.c    ****   LTDC_LayerCfgTypeDef pLayerCfg;
+  65:Src/ltdc.c    **** 
+  66:Src/ltdc.c    ****   hltdc.Instance = LTDC;
+  39              		.loc 1 66 0
+  40 0004 2948     		ldr	r0, .L7
+  41 0006 2A4B     		ldr	r3, .L7+4
+  42 0008 0360     		str	r3, [r0]
+  67:Src/ltdc.c    ****   hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AL;
+  43              		.loc 1 67 0
+  44 000a 0023     		movs	r3, #0
+  45 000c 4360     		str	r3, [r0, #4]
+  68:Src/ltdc.c    ****   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
+  46              		.loc 1 68 0
+  47 000e 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/ccsrHZ3u.s 			page 3
+
+
+  69:Src/ltdc.c    ****   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
+  48              		.loc 1 69 0
+  49 0010 C360     		str	r3, [r0, #12]
+  70:Src/ltdc.c    ****   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+  50              		.loc 1 70 0
+  51 0012 0361     		str	r3, [r0, #16]
+  71:Src/ltdc.c    ****   hltdc.Init.HorizontalSync = 40;
+  52              		.loc 1 71 0
+  53 0014 2822     		movs	r2, #40
+  54 0016 4261     		str	r2, [r0, #20]
+  72:Src/ltdc.c    ****   hltdc.Init.VerticalSync = 9;
+  55              		.loc 1 72 0
+  56 0018 0922     		movs	r2, #9
+  57 001a 8261     		str	r2, [r0, #24]
+  73:Src/ltdc.c    ****   hltdc.Init.AccumulatedHBP = 53;
+  58              		.loc 1 73 0
+  59 001c 3522     		movs	r2, #53
+  60 001e C261     		str	r2, [r0, #28]
+  74:Src/ltdc.c    ****   hltdc.Init.AccumulatedVBP = 11;
+  61              		.loc 1 74 0
+  62 0020 0B22     		movs	r2, #11
+  63 0022 0262     		str	r2, [r0, #32]
+  75:Src/ltdc.c    ****   hltdc.Init.AccumulatedActiveW = 533;
+  64              		.loc 1 75 0
+  65 0024 40F21522 		movw	r2, #533
+  66 0028 4262     		str	r2, [r0, #36]
+  76:Src/ltdc.c    ****   hltdc.Init.AccumulatedActiveH = 283;
+  67              		.loc 1 76 0
+  68 002a 40F21B12 		movw	r2, #283
+  69 002e 8262     		str	r2, [r0, #40]
+  77:Src/ltdc.c    ****   hltdc.Init.TotalWidth = 565;
+  70              		.loc 1 77 0
+  71 0030 40F23522 		movw	r2, #565
+  72 0034 C262     		str	r2, [r0, #44]
+  78:Src/ltdc.c    ****   hltdc.Init.TotalHeigh = 285;
+  73              		.loc 1 78 0
+  74 0036 40F21D12 		movw	r2, #285
+  75 003a 0263     		str	r2, [r0, #48]
+  79:Src/ltdc.c    ****   hltdc.Init.Backcolor.Blue = 0;
+  76              		.loc 1 79 0
+  77 003c 80F83430 		strb	r3, [r0, #52]
+  80:Src/ltdc.c    ****   hltdc.Init.Backcolor.Green = 0;
+  78              		.loc 1 80 0
+  79 0040 80F83530 		strb	r3, [r0, #53]
+  81:Src/ltdc.c    ****   hltdc.Init.Backcolor.Red = 0;
+  80              		.loc 1 81 0
+  81 0044 80F83630 		strb	r3, [r0, #54]
+  82:Src/ltdc.c    ****   if (HAL_LTDC_Init(&hltdc) != HAL_OK)
+  82              		.loc 1 82 0
+  83 0048 FFF7FEFF 		bl	HAL_LTDC_Init
+  84              	.LVL0:
+  85 004c 20BB     		cbnz	r0, .L5
+  86              	.L2:
+  83:Src/ltdc.c    ****   {
+  84:Src/ltdc.c    ****     _Error_Handler(__FILE__, __LINE__);
+  85:Src/ltdc.c    ****   }
+  86:Src/ltdc.c    **** 
+ARM GAS  /tmp/ccsrHZ3u.s 			page 4
+
+
+  87:Src/ltdc.c    ****   pLayerCfg.WindowX0 = 0;
+  87              		.loc 1 87 0
+  88 004e 0022     		movs	r2, #0
+  89 0050 0192     		str	r2, [sp, #4]
+  88:Src/ltdc.c    ****   pLayerCfg.WindowX1 = 480;
+  90              		.loc 1 88 0
+  91 0052 4FF4F071 		mov	r1, #480
+  92 0056 0291     		str	r1, [sp, #8]
+  89:Src/ltdc.c    ****   pLayerCfg.WindowY0 = 0;
+  93              		.loc 1 89 0
+  94 0058 0392     		str	r2, [sp, #12]
+  90:Src/ltdc.c    ****   pLayerCfg.WindowY1 = 272;
+  95              		.loc 1 90 0
+  96 005a 4FF48873 		mov	r3, #272
+  97 005e 0493     		str	r3, [sp, #16]
+  91:Src/ltdc.c    ****   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+  98              		.loc 1 91 0
+  99 0060 0592     		str	r2, [sp, #20]
+  92:Src/ltdc.c    ****   pLayerCfg.Alpha = 255;
+ 100              		.loc 1 92 0
+ 101 0062 FF20     		movs	r0, #255
+ 102 0064 0690     		str	r0, [sp, #24]
+  93:Src/ltdc.c    ****   pLayerCfg.Alpha0 = 0;
+ 103              		.loc 1 93 0
+ 104 0066 0792     		str	r2, [sp, #28]
+  94:Src/ltdc.c    ****   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
+ 105              		.loc 1 94 0
+ 106 0068 4FF4C060 		mov	r0, #1536
+ 107 006c 0890     		str	r0, [sp, #32]
+  95:Src/ltdc.c    ****   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
+ 108              		.loc 1 95 0
+ 109 006e 0720     		movs	r0, #7
+ 110 0070 0990     		str	r0, [sp, #36]
+  96:Src/ltdc.c    ****   pLayerCfg.FBStartAdress = 0xC0000000;
+ 111              		.loc 1 96 0
+ 112 0072 4FF04040 		mov	r0, #-1073741824
+ 113 0076 0A90     		str	r0, [sp, #40]
+  97:Src/ltdc.c    ****   pLayerCfg.ImageWidth = 480;
+ 114              		.loc 1 97 0
+ 115 0078 0B91     		str	r1, [sp, #44]
+  98:Src/ltdc.c    ****   pLayerCfg.ImageHeight = 272;
+ 116              		.loc 1 98 0
+ 117 007a 0C93     		str	r3, [sp, #48]
+  99:Src/ltdc.c    ****   pLayerCfg.Backcolor.Blue = 0;
+ 118              		.loc 1 99 0
+ 119 007c 8DF83420 		strb	r2, [sp, #52]
+ 100:Src/ltdc.c    ****   pLayerCfg.Backcolor.Green = 0;
+ 120              		.loc 1 100 0
+ 121 0080 8DF83520 		strb	r2, [sp, #53]
+ 101:Src/ltdc.c    ****   pLayerCfg.Backcolor.Red = 0;
+ 122              		.loc 1 101 0
+ 123 0084 8DF83620 		strb	r2, [sp, #54]
+ 102:Src/ltdc.c    ****   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
+ 124              		.loc 1 102 0
+ 125 0088 01A9     		add	r1, sp, #4
+ 126 008a 0848     		ldr	r0, .L7
+ 127 008c FFF7FEFF 		bl	HAL_LTDC_ConfigLayer
+ARM GAS  /tmp/ccsrHZ3u.s 			page 5
+
+
+ 128              	.LVL1:
+ 129 0090 38B9     		cbnz	r0, .L6
+ 130              	.L1:
+ 103:Src/ltdc.c    ****   {
+ 104:Src/ltdc.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 105:Src/ltdc.c    ****   }
+ 106:Src/ltdc.c    **** 
+ 107:Src/ltdc.c    **** }
+ 131              		.loc 1 107 0
+ 132 0092 0FB0     		add	sp, sp, #60
+ 133              	.LCFI2:
+ 134              		.cfi_remember_state
+ 135              		.cfi_def_cfa_offset 4
+ 136              		@ sp needed
+ 137 0094 5DF804FB 		ldr	pc, [sp], #4
+ 138              	.L5:
+ 139              	.LCFI3:
+ 140              		.cfi_restore_state
+  84:Src/ltdc.c    ****   }
+ 141              		.loc 1 84 0
+ 142 0098 5421     		movs	r1, #84
+ 143 009a 0648     		ldr	r0, .L7+8
+ 144 009c FFF7FEFF 		bl	_Error_Handler
+ 145              	.LVL2:
+ 146 00a0 D5E7     		b	.L2
+ 147              	.L6:
+ 104:Src/ltdc.c    ****   }
+ 148              		.loc 1 104 0
+ 149 00a2 6821     		movs	r1, #104
+ 150 00a4 0348     		ldr	r0, .L7+8
+ 151 00a6 FFF7FEFF 		bl	_Error_Handler
+ 152              	.LVL3:
+ 153              		.loc 1 107 0
+ 154 00aa F2E7     		b	.L1
+ 155              	.L8:
+ 156              		.align	2
+ 157              	.L7:
+ 158 00ac 00000000 		.word	hltdc
+ 159 00b0 00680140 		.word	1073833984
+ 160 00b4 00000000 		.word	.LC0
+ 161              		.cfi_endproc
+ 162              	.LFE138:
+ 164              		.section	.text.HAL_LTDC_MspInit,"ax",%progbits
+ 165              		.align	1
+ 166              		.global	HAL_LTDC_MspInit
+ 167              		.syntax unified
+ 168              		.thumb
+ 169              		.thumb_func
+ 170              		.fpu fpv5-sp-d16
+ 172              	HAL_LTDC_MspInit:
+ 173              	.LFB139:
+ 108:Src/ltdc.c    **** 
+ 109:Src/ltdc.c    **** void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
+ 110:Src/ltdc.c    **** {
+ 174              		.loc 1 110 0
+ 175              		.cfi_startproc
+ 176              		@ args = 0, pretend = 0, frame = 24
+ARM GAS  /tmp/ccsrHZ3u.s 			page 6
+
+
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178              	.LVL4:
+ 111:Src/ltdc.c    **** 
+ 112:Src/ltdc.c    ****   GPIO_InitTypeDef GPIO_InitStruct;
+ 113:Src/ltdc.c    ****   if(ltdcHandle->Instance==LTDC)
+ 179              		.loc 1 113 0
+ 180 0000 0268     		ldr	r2, [r0]
+ 181 0002 2A4B     		ldr	r3, .L16
+ 182 0004 9A42     		cmp	r2, r3
+ 183 0006 00D0     		beq	.L15
+ 184 0008 7047     		bx	lr
+ 185              	.L15:
+ 110:Src/ltdc.c    **** 
+ 186              		.loc 1 110 0
+ 187 000a 70B5     		push	{r4, r5, r6, lr}
+ 188              	.LCFI4:
+ 189              		.cfi_def_cfa_offset 16
+ 190              		.cfi_offset 4, -16
+ 191              		.cfi_offset 5, -12
+ 192              		.cfi_offset 6, -8
+ 193              		.cfi_offset 14, -4
+ 194 000c 86B0     		sub	sp, sp, #24
+ 195              	.LCFI5:
+ 196              		.cfi_def_cfa_offset 40
+ 197              	.LBB2:
+ 114:Src/ltdc.c    ****   {
+ 115:Src/ltdc.c    ****   /* USER CODE BEGIN LTDC_MspInit 0 */
+ 116:Src/ltdc.c    **** 
+ 117:Src/ltdc.c    ****   /* USER CODE END LTDC_MspInit 0 */
+ 118:Src/ltdc.c    ****     /* LTDC clock enable */
+ 119:Src/ltdc.c    ****     __HAL_RCC_LTDC_CLK_ENABLE();
+ 198              		.loc 1 119 0
+ 199 000e 03F55043 		add	r3, r3, #53248
+ 200 0012 5A6C     		ldr	r2, [r3, #68]
+ 201 0014 42F08062 		orr	r2, r2, #67108864
+ 202 0018 5A64     		str	r2, [r3, #68]
+ 203 001a 5B6C     		ldr	r3, [r3, #68]
+ 204 001c 03F08063 		and	r3, r3, #67108864
+ 205 0020 0093     		str	r3, [sp]
+ 206 0022 009B     		ldr	r3, [sp]
+ 207              	.LBE2:
+ 120:Src/ltdc.c    ****   
+ 121:Src/ltdc.c    ****     /**LTDC GPIO Configuration    
+ 122:Src/ltdc.c    ****     PE4     ------> LTDC_B0
+ 123:Src/ltdc.c    ****     PJ13     ------> LTDC_B1
+ 124:Src/ltdc.c    ****     PK7     ------> LTDC_DE
+ 125:Src/ltdc.c    ****     PK6     ------> LTDC_B7
+ 126:Src/ltdc.c    ****     PK5     ------> LTDC_B6
+ 127:Src/ltdc.c    ****     PG12     ------> LTDC_B4
+ 128:Src/ltdc.c    ****     PJ14     ------> LTDC_B2
+ 129:Src/ltdc.c    ****     PI10     ------> LTDC_HSYNC
+ 130:Src/ltdc.c    ****     PK4     ------> LTDC_B5
+ 131:Src/ltdc.c    ****     PJ15     ------> LTDC_B3
+ 132:Src/ltdc.c    ****     PI9     ------> LTDC_VSYNC
+ 133:Src/ltdc.c    ****     PK1     ------> LTDC_G6
+ 134:Src/ltdc.c    ****     PK2     ------> LTDC_G7
+ 135:Src/ltdc.c    ****     PI15     ------> LTDC_R0
+ARM GAS  /tmp/ccsrHZ3u.s 			page 7
+
+
+ 136:Src/ltdc.c    ****     PJ11     ------> LTDC_G4
+ 137:Src/ltdc.c    ****     PK0     ------> LTDC_G5
+ 138:Src/ltdc.c    ****     PI14     ------> LTDC_CLK
+ 139:Src/ltdc.c    ****     PJ8     ------> LTDC_G1
+ 140:Src/ltdc.c    ****     PJ10     ------> LTDC_G3
+ 141:Src/ltdc.c    ****     PJ7     ------> LTDC_G0
+ 142:Src/ltdc.c    ****     PJ9     ------> LTDC_G2
+ 143:Src/ltdc.c    ****     PJ6     ------> LTDC_R7
+ 144:Src/ltdc.c    ****     PJ4     ------> LTDC_R5
+ 145:Src/ltdc.c    ****     PJ5     ------> LTDC_R6
+ 146:Src/ltdc.c    ****     PJ3     ------> LTDC_R4
+ 147:Src/ltdc.c    ****     PJ2     ------> LTDC_R3
+ 148:Src/ltdc.c    ****     PJ0     ------> LTDC_R1
+ 149:Src/ltdc.c    ****     PJ1     ------> LTDC_R2 
+ 150:Src/ltdc.c    ****     */
+ 151:Src/ltdc.c    ****     GPIO_InitStruct.Pin = LCD_B0_Pin;
+ 208              		.loc 1 151 0
+ 209 0024 1023     		movs	r3, #16
+ 210 0026 0193     		str	r3, [sp, #4]
+ 152:Src/ltdc.c    ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 211              		.loc 1 152 0
+ 212 0028 0225     		movs	r5, #2
+ 213 002a 0295     		str	r5, [sp, #8]
+ 153:Src/ltdc.c    ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 214              		.loc 1 153 0
+ 215 002c 0024     		movs	r4, #0
+ 216 002e 0394     		str	r4, [sp, #12]
+ 154:Src/ltdc.c    ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 217              		.loc 1 154 0
+ 218 0030 0494     		str	r4, [sp, #16]
+ 155:Src/ltdc.c    ****     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
+ 219              		.loc 1 155 0
+ 220 0032 0E26     		movs	r6, #14
+ 221 0034 0596     		str	r6, [sp, #20]
+ 156:Src/ltdc.c    ****     HAL_GPIO_Init(LCD_B0_GPIO_Port, &GPIO_InitStruct);
+ 222              		.loc 1 156 0
+ 223 0036 01A9     		add	r1, sp, #4
+ 224 0038 1D48     		ldr	r0, .L16+4
+ 225              	.LVL5:
+ 226 003a FFF7FEFF 		bl	HAL_GPIO_Init
+ 227              	.LVL6:
+ 157:Src/ltdc.c    **** 
+ 158:Src/ltdc.c    ****     GPIO_InitStruct.Pin = LCD_B1_Pin|LCD_B2_Pin|LCD_B3_Pin|LCD_G4_Pin 
+ 228              		.loc 1 158 0
+ 229 003e 4EF6FF73 		movw	r3, #61439
+ 230 0042 0193     		str	r3, [sp, #4]
+ 159:Src/ltdc.c    ****                           |LCD_G1_Pin|LCD_G3_Pin|LCD_G0_Pin|LCD_G2_Pin 
+ 160:Src/ltdc.c    ****                           |LCD_R7_Pin|LCD_R5_Pin|LCD_R6_Pin|LCD_R4_Pin 
+ 161:Src/ltdc.c    ****                           |LCD_R3_Pin|LCD_R1_Pin|LCD_R2_Pin;
+ 162:Src/ltdc.c    ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 231              		.loc 1 162 0
+ 232 0044 0295     		str	r5, [sp, #8]
+ 163:Src/ltdc.c    ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 233              		.loc 1 163 0
+ 234 0046 0394     		str	r4, [sp, #12]
+ 164:Src/ltdc.c    ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 235              		.loc 1 164 0
+ARM GAS  /tmp/ccsrHZ3u.s 			page 8
+
+
+ 236 0048 0494     		str	r4, [sp, #16]
+ 165:Src/ltdc.c    ****     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
+ 237              		.loc 1 165 0
+ 238 004a 0596     		str	r6, [sp, #20]
+ 166:Src/ltdc.c    ****     HAL_GPIO_Init(GPIOJ, &GPIO_InitStruct);
+ 239              		.loc 1 166 0
+ 240 004c 01A9     		add	r1, sp, #4
+ 241 004e 1948     		ldr	r0, .L16+8
+ 242 0050 FFF7FEFF 		bl	HAL_GPIO_Init
+ 243              	.LVL7:
+ 167:Src/ltdc.c    **** 
+ 168:Src/ltdc.c    ****     GPIO_InitStruct.Pin = LCD_DE_Pin|LCD_B7_Pin|LCD_B6_Pin|LCD_B5_Pin 
+ 244              		.loc 1 168 0
+ 245 0054 F723     		movs	r3, #247
+ 246 0056 0193     		str	r3, [sp, #4]
+ 169:Src/ltdc.c    ****                           |LCD_G6_Pin|LCD_G7_Pin|LCD_G5_Pin;
+ 170:Src/ltdc.c    ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 247              		.loc 1 170 0
+ 248 0058 0295     		str	r5, [sp, #8]
+ 171:Src/ltdc.c    ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 249              		.loc 1 171 0
+ 250 005a 0394     		str	r4, [sp, #12]
+ 172:Src/ltdc.c    ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 251              		.loc 1 172 0
+ 252 005c 0494     		str	r4, [sp, #16]
+ 173:Src/ltdc.c    ****     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
+ 253              		.loc 1 173 0
+ 254 005e 0596     		str	r6, [sp, #20]
+ 174:Src/ltdc.c    ****     HAL_GPIO_Init(GPIOK, &GPIO_InitStruct);
+ 255              		.loc 1 174 0
+ 256 0060 01A9     		add	r1, sp, #4
+ 257 0062 1548     		ldr	r0, .L16+12
+ 258 0064 FFF7FEFF 		bl	HAL_GPIO_Init
+ 259              	.LVL8:
+ 175:Src/ltdc.c    **** 
+ 176:Src/ltdc.c    ****     GPIO_InitStruct.Pin = LCD_B4_Pin;
+ 260              		.loc 1 176 0
+ 261 0068 4FF48053 		mov	r3, #4096
+ 262 006c 0193     		str	r3, [sp, #4]
+ 177:Src/ltdc.c    ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 263              		.loc 1 177 0
+ 264 006e 0295     		str	r5, [sp, #8]
+ 178:Src/ltdc.c    ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 265              		.loc 1 178 0
+ 266 0070 0394     		str	r4, [sp, #12]
+ 179:Src/ltdc.c    ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 267              		.loc 1 179 0
+ 268 0072 0494     		str	r4, [sp, #16]
+ 180:Src/ltdc.c    ****     GPIO_InitStruct.Alternate = GPIO_AF9_LTDC;
+ 269              		.loc 1 180 0
+ 270 0074 0923     		movs	r3, #9
+ 271 0076 0593     		str	r3, [sp, #20]
+ 181:Src/ltdc.c    ****     HAL_GPIO_Init(LCD_B4_GPIO_Port, &GPIO_InitStruct);
+ 272              		.loc 1 181 0
+ 273 0078 01A9     		add	r1, sp, #4
+ 274 007a 1048     		ldr	r0, .L16+16
+ 275 007c FFF7FEFF 		bl	HAL_GPIO_Init
+ARM GAS  /tmp/ccsrHZ3u.s 			page 9
+
+
+ 276              	.LVL9:
+ 182:Src/ltdc.c    **** 
+ 183:Src/ltdc.c    ****     GPIO_InitStruct.Pin = LCD_HSYNC_Pin|LCD_VSYNC_Pin|LCD_R0_Pin|LCD_CLK_Pin;
+ 277              		.loc 1 183 0
+ 278 0080 4FF44643 		mov	r3, #50688
+ 279 0084 0193     		str	r3, [sp, #4]
+ 184:Src/ltdc.c    ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 280              		.loc 1 184 0
+ 281 0086 0295     		str	r5, [sp, #8]
+ 185:Src/ltdc.c    ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 282              		.loc 1 185 0
+ 283 0088 0394     		str	r4, [sp, #12]
+ 186:Src/ltdc.c    ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 284              		.loc 1 186 0
+ 285 008a 0494     		str	r4, [sp, #16]
+ 187:Src/ltdc.c    ****     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
+ 286              		.loc 1 187 0
+ 287 008c 0596     		str	r6, [sp, #20]
+ 188:Src/ltdc.c    ****     HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+ 288              		.loc 1 188 0
+ 289 008e 01A9     		add	r1, sp, #4
+ 290 0090 0B48     		ldr	r0, .L16+20
+ 291 0092 FFF7FEFF 		bl	HAL_GPIO_Init
+ 292              	.LVL10:
+ 189:Src/ltdc.c    **** 
+ 190:Src/ltdc.c    ****     /* LTDC interrupt Init */
+ 191:Src/ltdc.c    ****     HAL_NVIC_SetPriority(LTDC_IRQn, 5, 0);
+ 293              		.loc 1 191 0
+ 294 0096 2246     		mov	r2, r4
+ 295 0098 0521     		movs	r1, #5
+ 296 009a 5820     		movs	r0, #88
+ 297 009c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 298              	.LVL11:
+ 192:Src/ltdc.c    ****     HAL_NVIC_EnableIRQ(LTDC_IRQn);
+ 299              		.loc 1 192 0
+ 300 00a0 5820     		movs	r0, #88
+ 301 00a2 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 302              	.LVL12:
+ 193:Src/ltdc.c    ****   /* USER CODE BEGIN LTDC_MspInit 1 */
+ 194:Src/ltdc.c    **** 
+ 195:Src/ltdc.c    ****   /* USER CODE END LTDC_MspInit 1 */
+ 196:Src/ltdc.c    ****   }
+ 197:Src/ltdc.c    **** }
+ 303              		.loc 1 197 0
+ 304 00a6 06B0     		add	sp, sp, #24
+ 305              	.LCFI6:
+ 306              		.cfi_def_cfa_offset 16
+ 307              		@ sp needed
+ 308 00a8 70BD     		pop	{r4, r5, r6, pc}
+ 309              	.L17:
+ 310 00aa 00BF     		.align	2
+ 311              	.L16:
+ 312 00ac 00680140 		.word	1073833984
+ 313 00b0 00100240 		.word	1073876992
+ 314 00b4 00240240 		.word	1073882112
+ 315 00b8 00280240 		.word	1073883136
+ 316 00bc 00180240 		.word	1073879040
+ARM GAS  /tmp/ccsrHZ3u.s 			page 10
+
+
+ 317 00c0 00200240 		.word	1073881088
+ 318              		.cfi_endproc
+ 319              	.LFE139:
+ 321              		.section	.text.HAL_LTDC_MspDeInit,"ax",%progbits
+ 322              		.align	1
+ 323              		.global	HAL_LTDC_MspDeInit
+ 324              		.syntax unified
+ 325              		.thumb
+ 326              		.thumb_func
+ 327              		.fpu fpv5-sp-d16
+ 329              	HAL_LTDC_MspDeInit:
+ 330              	.LFB140:
+ 198:Src/ltdc.c    **** 
+ 199:Src/ltdc.c    **** void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
+ 200:Src/ltdc.c    **** {
+ 331              		.loc 1 200 0
+ 332              		.cfi_startproc
+ 333              		@ args = 0, pretend = 0, frame = 0
+ 334              		@ frame_needed = 0, uses_anonymous_args = 0
+ 335              	.LVL13:
+ 336 0000 08B5     		push	{r3, lr}
+ 337              	.LCFI7:
+ 338              		.cfi_def_cfa_offset 8
+ 339              		.cfi_offset 3, -8
+ 340              		.cfi_offset 14, -4
+ 201:Src/ltdc.c    **** 
+ 202:Src/ltdc.c    ****   if(ltdcHandle->Instance==LTDC)
+ 341              		.loc 1 202 0
+ 342 0002 0268     		ldr	r2, [r0]
+ 343 0004 114B     		ldr	r3, .L22
+ 344 0006 9A42     		cmp	r2, r3
+ 345 0008 00D0     		beq	.L21
+ 346              	.LVL14:
+ 347              	.L18:
+ 203:Src/ltdc.c    ****   {
+ 204:Src/ltdc.c    ****   /* USER CODE BEGIN LTDC_MspDeInit 0 */
+ 205:Src/ltdc.c    **** 
+ 206:Src/ltdc.c    ****   /* USER CODE END LTDC_MspDeInit 0 */
+ 207:Src/ltdc.c    ****     /* Peripheral clock disable */
+ 208:Src/ltdc.c    ****     __HAL_RCC_LTDC_CLK_DISABLE();
+ 209:Src/ltdc.c    ****   
+ 210:Src/ltdc.c    ****     /**LTDC GPIO Configuration    
+ 211:Src/ltdc.c    ****     PE4     ------> LTDC_B0
+ 212:Src/ltdc.c    ****     PJ13     ------> LTDC_B1
+ 213:Src/ltdc.c    ****     PK7     ------> LTDC_DE
+ 214:Src/ltdc.c    ****     PK6     ------> LTDC_B7
+ 215:Src/ltdc.c    ****     PK5     ------> LTDC_B6
+ 216:Src/ltdc.c    ****     PG12     ------> LTDC_B4
+ 217:Src/ltdc.c    ****     PJ14     ------> LTDC_B2
+ 218:Src/ltdc.c    ****     PI10     ------> LTDC_HSYNC
+ 219:Src/ltdc.c    ****     PK4     ------> LTDC_B5
+ 220:Src/ltdc.c    ****     PJ15     ------> LTDC_B3
+ 221:Src/ltdc.c    ****     PI9     ------> LTDC_VSYNC
+ 222:Src/ltdc.c    ****     PK1     ------> LTDC_G6
+ 223:Src/ltdc.c    ****     PK2     ------> LTDC_G7
+ 224:Src/ltdc.c    ****     PI15     ------> LTDC_R0
+ 225:Src/ltdc.c    ****     PJ11     ------> LTDC_G4
+ARM GAS  /tmp/ccsrHZ3u.s 			page 11
+
+
+ 226:Src/ltdc.c    ****     PK0     ------> LTDC_G5
+ 227:Src/ltdc.c    ****     PI14     ------> LTDC_CLK
+ 228:Src/ltdc.c    ****     PJ8     ------> LTDC_G1
+ 229:Src/ltdc.c    ****     PJ10     ------> LTDC_G3
+ 230:Src/ltdc.c    ****     PJ7     ------> LTDC_G0
+ 231:Src/ltdc.c    ****     PJ9     ------> LTDC_G2
+ 232:Src/ltdc.c    ****     PJ6     ------> LTDC_R7
+ 233:Src/ltdc.c    ****     PJ4     ------> LTDC_R5
+ 234:Src/ltdc.c    ****     PJ5     ------> LTDC_R6
+ 235:Src/ltdc.c    ****     PJ3     ------> LTDC_R4
+ 236:Src/ltdc.c    ****     PJ2     ------> LTDC_R3
+ 237:Src/ltdc.c    ****     PJ0     ------> LTDC_R1
+ 238:Src/ltdc.c    ****     PJ1     ------> LTDC_R2 
+ 239:Src/ltdc.c    ****     */
+ 240:Src/ltdc.c    ****     HAL_GPIO_DeInit(LCD_B0_GPIO_Port, LCD_B0_Pin);
+ 241:Src/ltdc.c    **** 
+ 242:Src/ltdc.c    ****     HAL_GPIO_DeInit(GPIOJ, LCD_B1_Pin|LCD_B2_Pin|LCD_B3_Pin|LCD_G4_Pin 
+ 243:Src/ltdc.c    ****                           |LCD_G1_Pin|LCD_G3_Pin|LCD_G0_Pin|LCD_G2_Pin 
+ 244:Src/ltdc.c    ****                           |LCD_R7_Pin|LCD_R5_Pin|LCD_R6_Pin|LCD_R4_Pin 
+ 245:Src/ltdc.c    ****                           |LCD_R3_Pin|LCD_R1_Pin|LCD_R2_Pin);
+ 246:Src/ltdc.c    **** 
+ 247:Src/ltdc.c    ****     HAL_GPIO_DeInit(GPIOK, LCD_DE_Pin|LCD_B7_Pin|LCD_B6_Pin|LCD_B5_Pin 
+ 248:Src/ltdc.c    ****                           |LCD_G6_Pin|LCD_G7_Pin|LCD_G5_Pin);
+ 249:Src/ltdc.c    **** 
+ 250:Src/ltdc.c    ****     HAL_GPIO_DeInit(LCD_B4_GPIO_Port, LCD_B4_Pin);
+ 251:Src/ltdc.c    **** 
+ 252:Src/ltdc.c    ****     HAL_GPIO_DeInit(GPIOI, LCD_HSYNC_Pin|LCD_VSYNC_Pin|LCD_R0_Pin|LCD_CLK_Pin);
+ 253:Src/ltdc.c    **** 
+ 254:Src/ltdc.c    ****     /* LTDC interrupt Deinit */
+ 255:Src/ltdc.c    ****     HAL_NVIC_DisableIRQ(LTDC_IRQn);
+ 256:Src/ltdc.c    ****   /* USER CODE BEGIN LTDC_MspDeInit 1 */
+ 257:Src/ltdc.c    **** 
+ 258:Src/ltdc.c    ****   /* USER CODE END LTDC_MspDeInit 1 */
+ 259:Src/ltdc.c    ****   }
+ 260:Src/ltdc.c    **** } 
+ 348              		.loc 1 260 0
+ 349 000a 08BD     		pop	{r3, pc}
+ 350              	.LVL15:
+ 351              	.L21:
+ 208:Src/ltdc.c    ****   
+ 352              		.loc 1 208 0
+ 353 000c 104A     		ldr	r2, .L22+4
+ 354 000e 536C     		ldr	r3, [r2, #68]
+ 355 0010 23F08063 		bic	r3, r3, #67108864
+ 356 0014 5364     		str	r3, [r2, #68]
+ 240:Src/ltdc.c    **** 
+ 357              		.loc 1 240 0
+ 358 0016 1021     		movs	r1, #16
+ 359 0018 0E48     		ldr	r0, .L22+8
+ 360              	.LVL16:
+ 361 001a FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 362              	.LVL17:
+ 242:Src/ltdc.c    ****                           |LCD_G1_Pin|LCD_G3_Pin|LCD_G0_Pin|LCD_G2_Pin 
+ 363              		.loc 1 242 0
+ 364 001e 4EF6FF71 		movw	r1, #61439
+ 365 0022 0D48     		ldr	r0, .L22+12
+ 366 0024 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ARM GAS  /tmp/ccsrHZ3u.s 			page 12
+
+
+ 367              	.LVL18:
+ 247:Src/ltdc.c    ****                           |LCD_G6_Pin|LCD_G7_Pin|LCD_G5_Pin);
+ 368              		.loc 1 247 0
+ 369 0028 F721     		movs	r1, #247
+ 370 002a 0C48     		ldr	r0, .L22+16
+ 371 002c FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 372              	.LVL19:
+ 250:Src/ltdc.c    **** 
+ 373              		.loc 1 250 0
+ 374 0030 4FF48051 		mov	r1, #4096
+ 375 0034 0A48     		ldr	r0, .L22+20
+ 376 0036 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 377              	.LVL20:
+ 252:Src/ltdc.c    **** 
+ 378              		.loc 1 252 0
+ 379 003a 4FF44641 		mov	r1, #50688
+ 380 003e 0948     		ldr	r0, .L22+24
+ 381 0040 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 382              	.LVL21:
+ 255:Src/ltdc.c    ****   /* USER CODE BEGIN LTDC_MspDeInit 1 */
+ 383              		.loc 1 255 0
+ 384 0044 5820     		movs	r0, #88
+ 385 0046 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 386              	.LVL22:
+ 387              		.loc 1 260 0
+ 388 004a DEE7     		b	.L18
+ 389              	.L23:
+ 390              		.align	2
+ 391              	.L22:
+ 392 004c 00680140 		.word	1073833984
+ 393 0050 00380240 		.word	1073887232
+ 394 0054 00100240 		.word	1073876992
+ 395 0058 00240240 		.word	1073882112
+ 396 005c 00280240 		.word	1073883136
+ 397 0060 00180240 		.word	1073879040
+ 398 0064 00200240 		.word	1073881088
+ 399              		.cfi_endproc
+ 400              	.LFE140:
+ 402              		.comm	hltdc,168,4
+ 403              		.section	.rodata.MX_LTDC_Init.str1.4,"aMS",%progbits,1
+ 404              		.align	2
+ 405              	.LC0:
+ 406 0000 5372632F 		.ascii	"Src/ltdc.c\000"
+ 406      6C746463 
+ 406      2E6300
+ 407              		.text
+ 408              	.Letext0:
+ 409              		.file 2 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_defa
+ 410              		.file 3 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.h
+ 411              		.file 4 "Drivers/CMSIS/Include/core_cm7.h"
+ 412              		.file 5 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h"
+ 413              		.file 6 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f746xx.h"
+ 414              		.file 7 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
+ 415              		.file 8 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h"
+ 416              		.file 9 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include
+ 417              		.file 10 "/home/warranyu/opt/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
+ 418              		.file 11 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h"
+ARM GAS  /tmp/ccsrHZ3u.s 			page 13
+
+
+ 419              		.file 12 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_gpio.h"
+ 420              		.file 13 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_ltdc.h"
+ 421              		.file 14 "Inc/ltdc.h"
+ 422              		.file 15 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h"
+ARM GAS  /tmp/ccsrHZ3u.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ltdc.c
+     /tmp/ccsrHZ3u.s:18     .text.MX_LTDC_Init:0000000000000000 $t
+     /tmp/ccsrHZ3u.s:25     .text.MX_LTDC_Init:0000000000000000 MX_LTDC_Init
+     /tmp/ccsrHZ3u.s:158    .text.MX_LTDC_Init:00000000000000ac $d
+                            *COM*:00000000000000a8 hltdc
+     /tmp/ccsrHZ3u.s:165    .text.HAL_LTDC_MspInit:0000000000000000 $t
+     /tmp/ccsrHZ3u.s:172    .text.HAL_LTDC_MspInit:0000000000000000 HAL_LTDC_MspInit
+     /tmp/ccsrHZ3u.s:312    .text.HAL_LTDC_MspInit:00000000000000ac $d
+     /tmp/ccsrHZ3u.s:322    .text.HAL_LTDC_MspDeInit:0000000000000000 $t
+     /tmp/ccsrHZ3u.s:329    .text.HAL_LTDC_MspDeInit:0000000000000000 HAL_LTDC_MspDeInit
+     /tmp/ccsrHZ3u.s:392    .text.HAL_LTDC_MspDeInit:000000000000004c $d
+     /tmp/ccsrHZ3u.s:404    .rodata.MX_LTDC_Init.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_LTDC_Init
+HAL_LTDC_ConfigLayer
+_Error_Handler
+HAL_GPIO_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_GPIO_DeInit
+HAL_NVIC_DisableIRQ
