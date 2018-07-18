@@ -199,6 +199,7 @@ Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c \
 Src/functionsundertest.c \
+Src/FreeRTOS-openocd.c \
 
 # ASM sources
 ASM_SOURCES =  \
@@ -302,7 +303,7 @@ LDSCRIPT = STM32F746NGHx_FLASH.ld
 # libraries
 LIBS = -lc -lm -lnosys
 LIBDIR =
-LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--undefined=uxTopUsedPriority,--gc-sections
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
